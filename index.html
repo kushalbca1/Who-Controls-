@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f7f3ff">
+<title>WHO CONTROLS?</title>
+<style>
+  :root{
+    --purple:#7c3aed; --lime:#a3e635; --blue:#3b82f6; --orange:#fb923c;
+    --ink:#1e1b3a; --bg:#fbf9ff; --card:#ffffff; --muted:#6b6785;
+    --radius:28px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Trebuchet MS","Segoe UI",system-ui,sans-serif;
+    background:var(--bg); color:var(--ink); overflow-x:hidden;
+    background-image:
+      radial-gradient(circle at 10% 8%, rgba(124,58,237,.14), transparent 40%),
+      radial-gradient(circle at 92% 30%, rgba(163,230,53,.22), transparent 38%),
+      radial-gradient(circle at 15% 75%, rgba(59,130,246,.14), transparent 40%),
+      radial-gradient(circle at 90% 92%, rgba(251,146,60,.18), transparent 38%);
+  }
+  .wrap{max-width:520px;margin:0 auto;padding:18px 18px 60px}
+  h1,h2,h3{font-weight:900;letter-spacing:-.02em;line-height:1.02}
+
+  /* Header */
+  header{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px}
+  .logo{font-size:1.25rem;font-weight:900;letter-spacing:-.03em;display:flex;align-items:center;gap:8px}
+  .logo i{width:30px;height:30px;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--blue));display:grid;place-items:center;color:#fff;font-style:normal;font-size:1.1rem;transform:rotate(-8deg);box-shadow:0 6px 14px rgba(124,58,237,.35)}
+  .logo b{color:var(--orange)}
+  .live{font-size:.72rem;font-weight:800;background:#fff;border:2px solid var(--ink);padding:6px 12px;border-radius:99px;display:flex;align-items:center;gap:6px}
+  .live:before{content:"";width:9px;height:9px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(163,230,53,.8);animation:pulse 1.6s infinite}
+  @keyframes pulse{70%{box-shadow:0 0 0 9px rgba(163,230,53,0)}100%{box-shadow:0 0 0 0 rgba(163,230,53,0)}}
+
+  /* Hero */
+  .hero{text-align:center}
+  .hero h1{font-size:clamp(2.6rem,13vw,3.8rem);text-transform:uppercase}
+  .hero h1 span{background:linear-gradient(90deg,var(--purple),var(--blue));-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero h1 em{font-style:normal;background:var(--lime);padding:0 10px;border-radius:14px;display:inline-block;transform:rotate(-2deg);color:var(--ink)}
+  .sub{margin-top:12px;font-size:1.1rem;font-weight:700;color:var(--muted)}
+
+  /* Planet */
+  .planet-box{position:relative;margin:10px auto 0;width:min(86vw,380px);aspect-ratio:1}
+  .planet-box svg{width:100%;height:100%;overflow:visible}
+  .float{animation:float 5s ease-in-out infinite;transform-origin:center}
+  @keyframes float{50%{transform:translateY(-10px) rotate(2deg)}}
+  .orbit{animation:spin 14s linear infinite;transform-origin:200px 200px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  .twinkle{animation:tw 2.4s ease-in-out infinite}
+  .twinkle:nth-of-type(2n){animation-delay:.8s}.twinkle:nth-of-type(3n){animation-delay:1.5s}
+  @keyframes tw{50%{opacity:.2;transform:scale(.5)}}
+  .sticker{position:absolute;font-weight:900;font-size:.72rem;background:#fff;border:2px solid var(--ink);border-radius:14px;padding:6px 10px;box-shadow:3px 3px 0 var(--ink)}
+  .st1{top:6%;left:0;transform:rotate(-8deg);color:var(--purple)}
+  .st2{bottom:10%;right:0;transform:rotate(6deg);color:#4d7c0f;background:var(--lime)}
+
+  /* Voting */
+  .section{margin-top:34px}
+  .vote-head{text-align:center}
+  .vote-head h2{font-size:1.9rem;text-transform:uppercase}
+  .timer{margin:16px auto 0;display:inline-flex;gap:8px;align-items:center;background:var(--ink);color:#fff;border-radius:20px;padding:10px 16px;font-weight:900}
+  .timer small{font-size:.65rem;letter-spacing:.1em;opacity:.7;display:block;text-align:left}
+  .timer .t{font-size:1.6rem;font-variant-numeric:tabular-nums;letter-spacing:.04em;color:var(--lime)}
+  .cards{display:grid;gap:16px;margin-top:20px}
+  .vcard{
+    position:relative;border:none;text-align:left;cursor:pointer;color:#fff;
+    border-radius:var(--radius);padding:22px;overflow:hidden;font-family:inherit;
+    box-shadow:0 14px 30px -10px rgba(30,27,58,.4);
+    transition:transform .25s cubic-bezier(.3,1.6,.5,1), box-shadow .25s;
+  }
+  .vcard:active{transform:scale(.97)}
+  .vcard:hover{transform:translateY(-4px) rotate(-.6deg)}
+  .vcard.purple{background:linear-gradient(135deg,#8b5cf6,#6d28d9 60%,var(--blue))}
+  .vcard.green{background:linear-gradient(135deg,#bef264,var(--lime) 40%,#4ade80);color:var(--ink)}
+  .vcard .emoji{font-size:2.6rem;position:absolute;right:16px;top:12px;animation:float 4s ease-in-out infinite}
+  .vcard h3{font-size:1.7rem;text-transform:uppercase}
+  .vcard p{margin-top:6px;font-weight:700;font-size:.9rem;opacity:.9;max-width:70%}
+  .pct{margin-top:16px;display:flex;align-items:center;gap:12px}
+  .pct b{font-size:2rem;min-width:84px;font-variant-numeric:tabular-nums}
+  .bar{flex:1;height:14px;border-radius:99px;background:rgba(255,255,255,.3);overflow:hidden}
+  .green .bar{background:rgba(30,27,58,.15)}
+  .bar i{display:block;height:100%;width:50%;border-radius:99px;background:#fff;transition:width .8s cubic-bezier(.3,1.2,.4,1)}
+  .green .bar i{background:var(--ink)}
+  .cta{margin-top:14px;display:inline-block;background:#fff;color:var(--ink);font-weight:900;font-size:.82rem;padding:8px 16px;border-radius:99px}
+  .vcard.picked{outline:5px solid var(--orange);outline-offset:3px}
+  .note{margin-top:14px;text-align:center;font-size:.75rem;font-weight:800;color:#9a3412;background:#ffedd5;border:2px dashed var(--orange);border-radius:14px;padding:8px 12px}
+  #msg{text-align:center;margin-top:12px;font-weight:800;min-height:1.4em;color:var(--purple)}
+
+  /* Current world */
+  .panel{background:var(--card);border-radius:var(--radius);padding:22px;border:2px solid var(--ink);box-shadow:6px 6px 0 var(--ink)}
+  .panel h2{font-size:1.5rem;text-transform:uppercase;margin-bottom:4px}
+  .panel .tag{font-size:.72rem;font-weight:800;color:var(--muted);margin-bottom:14px}
+  .stat{margin-top:14px}
+  .stat div.row{display:flex;justify-content:space-between;font-weight:900;font-size:.85rem;margin-bottom:6px}
+  .meter{height:16px;background:#efeaff;border-radius:99px;overflow:hidden}
+  .meter i{display:block;height:100%;border-radius:99px;transition:width .8s}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+  .chip{font-size:.78rem;font-weight:900;padding:7px 12px;border-radius:99px;color:#fff}
+
+  /* How it works */
+  .steps{display:grid;gap:12px;margin-top:14px}
+  .step{display:flex;gap:14px;align-items:center;background:#fff;border-radius:22px;padding:14px 16px;box-shadow:0 8px 20px -10px rgba(30,27,58,.35);transition:transform .2s}
+  .step:hover{transform:translateX(4px)}
+  .step .n{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-weight:900;font-size:1.2rem;color:#fff}
+  .step:nth-child(1) .n{background:var(--purple)}
+  .step:nth-child(2) .n{background:var(--blue)}
+  .step:nth-child(3) .n{background:var(--orange)}
+  .step b{display:block;font-size:1rem}
+  .step span{font-size:.85rem;color:var(--muted);font-weight:600}
+  .section>h2{font-size:1.5rem;text-transform:uppercase}
+
+  /* Share + footer */
+  .share{
+    display:block;width:100%;margin-top:34px;border:none;cursor:pointer;font-family:inherit;
+    font-size:1.2rem;font-weight:900;padding:18px;border-radius:99px;color:#fff;text-transform:uppercase;letter-spacing:.02em;
+    background:linear-gradient(90deg,var(--orange),#f43f5e,var(--purple));background-size:200% 100%;
+    animation:shift 4s linear infinite;box-shadow:0 14px 26px -10px rgba(244,63,94,.6);
+    transition:transform .2s;
+  }
+  .share:active{transform:scale(.96)}
+  @keyframes shift{50%{background-position:100% 0}}
+  footer{margin-top:22px;text-align:center;font-size:.75rem;font-weight:700;color:var(--muted)}
+
+  /* Reveal on scroll */
+  .reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}
+  .reveal.in{opacity:1;transform:none}
+  .pop{animation:pop .5s}
+  @keyframes pop{40%{transform:scale(1.12)}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="logo"><i>?</i>WHO CONTROLS<b>?</b></div>
+    <div class="live">DEMO</div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1><span>The Internet</span> <em>Decides.</em></h1>
+    <p class="sub">Every vote changes the world.</p>
+
+    <div class="planet-box">
+      <span class="sticker st1">1 vote = 1 change</span>
+      <span class="sticker st2">Planet Zorb-1</span>
+      <svg viewBox="0 0 400 400" aria-label="Illustration of a fictional planet">
+        <defs>
+          <linearGradient id="split" x1="0" y1="0" x2="1" y2="0.25">
+            <stop id="s1" offset="50%" stop-color="#8b5cf6"/>
+            <stop id="s2" offset="50%" stop-color="#a3e635"/>
+          </linearGradient>
+          <radialGradient id="shade" cx=".35" cy=".3" r=".8">
+            <stop offset="0" stop-color="#fff" stop-opacity=".55"/>
+            <stop offset=".5" stop-color="#fff" stop-opacity="0"/>
+            <stop offset="1" stop-color="#1e1b3a" stop-opacity=".25"/>
+          </radialGradient>
+          <clipPath id="clip"><circle cx="200" cy="200" r="115"/></clipPath>
+        </defs>
+
+        <g fill="#fb923c"><circle class="twinkle" cx="40" cy="70" r="5"/><circle class="twinkle" cx="350" cy="330" r="4"/></g>
+        <g fill="#3b82f6"><circle class="twinkle" cx="340" cy="60" r="6"/><circle class="twinkle" cx="55" cy="320" r="4"/></g>
+        <g fill="#7c3aed"><path class="twinkle" d="M85 140l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/><path class="twinkle" d="M320 170l3 8 8 3-8 3-3 8-3-8-8-3 8-3z"/></g>
+
+        <g class="float">
+          <!-- back ring -->
+          <ellipse cx="200" cy="205" rx="175" ry="42" fill="none" stroke="#3b82f6" stroke-width="12" opacity=".55" transform="rotate(-18 200 205)"/>
+          <!-- planet -->
+          <circle cx="200" cy="200" r="115" fill="url(#split)"/>
+          <g clip-path="url(#clip)">
+            <path d="M110 160q30-30 60-5t10 45-55 10z" fill="#fff" opacity=".28"/>
+            <path d="M230 120q40-10 55 25t-25 40-45-25z" fill="#fff" opacity=".28"/>
+            <path d="M200 250q50-20 75 10t-30 50-55-20z" fill="#fff" opacity=".28"/>
+            <circle cx="150" cy="260" r="16" fill="#1e1b3a" opacity=".12"/>
+            <circle cx="255" cy="215" r="10" fill="#1e1b3a" opacity=".12"/>
+            <circle cx="140" cy="150" r="9" fill="#1e1b3a" opacity=".1"/>
+            <rect x="85" y="195" width="230" height="14" fill="#fff" opacity=".18" transform="rotate(-12 200 200)"/>
+          </g>
+          <circle cx="200" cy="200" r="115" fill="url(#shade)"/>
+          <circle cx="200" cy="200" r="115" fill="none" stroke="#1e1b3a" stroke-width="4"/>
+          <!-- front ring -->
+          <path d="M 28 232 A 175 42 0 0 0 372 178" fill="none" stroke="#fb923c" stroke-width="12" stroke-linecap="round" transform="rotate(-18 200 205)"/>
+          <!-- orbiting moon -->
+          <g class="orbit"><circle cx="200" cy="38" r="17" fill="#fb923c" stroke="#1e1b3a" stroke-width="3.5"/><circle cx="194" cy="33" r="4" fill="#fff" opacity=".6"/></g>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- VOTING -->
+  <section class="section reveal vote-head">
+    <h2>What should our world become?</h2>
+    <div class="timer" aria-live="off">
+      <div><small>NEXT WORLD UPDATE IN</small><span class="t" id="time">00:00:00</span></div>
+    </div>
+
+    <div class="cards">
+      <button class="vcard purple" data-world="purple" aria-label="Vote Purple World">
+        <span class="emoji">🔮</span>
+        <h3>Purple<br>World</h3>
+        <p>Neon cities, glowing skies &amp; wild tech.</p>
+        <div class="pct"><b id="pP">50%</b><div class="bar"><i id="bP"></i></div></div>
+        <span class="cta">Vote Purple →</span>
+      </button>
+      <button class="vcard green" data-world="green" aria-label="Vote Green World">
+        <span class="emoji">🌿</span>
+        <h3>Green<br>World</h3>
+        <p>Jungles, giant plants &amp; chill vibes.</p>
+        <div class="pct"><b id="pG">50%</b><div class="bar"><i id="bG"></i></div></div>
+        <span class="cta">Vote Green →</span>
+      </button>
+    </div>
+    <div id="msg"></div>
+    <div class="note">⚠️ DEMO DATA ONLY — votes &amp; percentages are fake and not saved.</div>
+  </section>
+
+  <!-- CURRENT WORLD -->
+  <section class="section reveal">
+    <div class="panel">
+      <h2>The Current World</h2>
+      <div class="tag">Planet Zorb-1 · Day 1 · demo data</div>
+      <div class="stat"><div class="row"><span>🔮 Purple energy</span><span id="sP">50%</span></div><div class="meter"><i id="mP" style="background:var(--purple);width:50%"></i></div></div>
+      <div class="stat"><div class="row"><span>🌿 Green energy</span><span id="sG">50%</span></div><div class="meter"><i id="mG" style="background:var(--lime);width:50%"></i></div></div>
+      <div class="stat"><div class="row"><span>🌊 Ocean level</span><span>64%</span></div><div class="meter"><i style="background:var(--blue);width:64%"></i></div></div>
+      <div class="chips" id="chips"></div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="section reveal">
+    <h2>How it works</h2>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><b>Pick a side</b><span>Choose the world you want.</span></div></div>
+      <div class="step"><div class="n">2</div><div><b>Watch the clock</b><span>Voting closes when the timer hits zero.</span></div></div>
+      <div class="step"><div class="n">3</div><div><b>The world changes</b><span>The winner reshapes our planet for everyone.</span></div></div>
+    </div>
+  </section>
+
+  <button class="share" id="share">🚀 Share the experiment</button>
+  <footer>WHO CONTROLS? · Stage 1 design preview · all data is demo</footer>
+</div>
+
+<script>
+  const $ = id => document.getElementById(id);
+
+  // ---- Demo state (fake data, resets on reload) ----
+  let purple = 5230, green = 4770, picked = null;
+
+  function render(){
+    const total = purple + green;
+    const p = Math.round(purple / total * 100), g = 100 - p;
+    $('pP').textContent = p + '%'; $('pG').textContent = g + '%';
+    $('bP').style.width = p + '%'; $('bG').style.width = g + '%';
+    $('sP').textContent = p + '%'; $('sG').textContent = g + '%';
+    $('mP').style.width = p + '%'; $('mG').style.width = g + '%';
+    // planet colour split follows the votes
+    $('s1').setAttribute('offset', p + '%'); $('s2').setAttribute('offset', p + '%');
+    // world traits change with the leader
+    const lead = p >= g;
+    $('chips').innerHTML = (lead
+      ? [['Neon cities','#7c3aed'],['Glowing sky','#3b82f6'],['Robot pets','#fb923c']]
+      : [['Giant forests','#65a30d'],['Sunny skies','#3b82f6'],['Floating gardens','#fb923c']]
+    ).map(c => `<span class="chip" style="background:${c[1]}">${c[0]}</span>`).join('');
+  }
+
+  // ---- Voting buttons ----
+  document.querySelectorAll('.vcard').forEach(btn => btn.addEventListener('click', () => {
+    const w = btn.dataset.world;
+    if (picked === w) { $('msg').textContent = 'You already voted ' + w + '! (demo)'; return; }
+    if (picked === 'purple') purple--; if (picked === 'green') green--;
+    w === 'purple' ? purple += 25 : green += 25;   // +25 so the change is visible in the demo
+    picked = w;
+    document.querySelectorAll('.vcard').forEach(b => b.classList.toggle('picked', b === btn));
+    btn.classList.remove('pop'); void btn.offsetWidth; btn.classList.add('pop');
+    $('msg').textContent = '🎉 You voted ' + w.toUpperCase() + ' WORLD! (demo vote)';
+    render();
+  }));
+
+  // ---- Demo countdown (loops every 1 hour) ----
+  let left = 59 * 60 + 59;
+  function tick(){
+    const h = Math.floor(left / 3600), m = Math.floor(left % 3600 / 60), s = left % 60;
+    $('time').textContent = [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
+    left = left > 0 ? left - 1 : 3599;
+  }
+  tick(); setInterval(tick, 1000);
+
+  // ---- Fake live activity so the demo feels alive ----
+  setInterval(() => {
+    Math.random() < .5 ? purple += 3 : green += 3;
+    render();
+  }, 2500);
+
+  // ---- Share ----
+  $('share').addEventListener('click', async () => {
+    const data = { title: 'WHO CONTROLS?', text: 'The internet decides. Every vote changes the world!', url: location.href };
+    try {
+      if (navigator.share) await navigator.share(data);
+      else { await navigator.clipboard.writeText(data.text + ' ' + data.url); $('share').textContent = '✅ Link copied!'; setTimeout(() => $('share').textContent = '🚀 Share the experiment', 2000); }
+    } catch (e) {}
+  });
+
+  // ---- Scroll reveal ----
+  const io = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('in')), { threshold: .15 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+  render();
+</script>
+</body>
+  </html>
